@@ -1,47 +1,335 @@
-
-<h2 class="sr-only">Quick recall quiz on software implementation methods: direct, phased, and parallel</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Implementation Methods — Quick Recall Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  .quiz-wrap { padding: 1.5rem 0; font-family: var(--font-sans); }
-  .progress-bar-bg { height: 4px; background: var(--color-border-tertiary); border-radius: 2px; margin-bottom: 2rem; }
-  .progress-bar-fill { height: 4px; background: var(--color-text-primary); border-radius: 2px; transition: width 0.4s ease; }
-  .q-counter { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 0.5rem; }
-  .q-text { font-size: 17px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 1.5rem; line-height: 1.5; }
-  .options { display: flex; flex-direction: column; gap: 10px; }
-  .option-btn { text-align: left; padding: 14px 18px; border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-secondary); background: var(--color-background-primary); cursor: pointer; font-size: 15px; color: var(--color-text-primary); transition: background 0.15s, border-color 0.15s; line-height: 1.4; }
-  .option-btn:hover:not(:disabled) { background: var(--color-background-secondary); border-color: var(--color-border-primary); }
-  .option-btn.correct { background: var(--color-background-success); border-color: var(--color-border-success); color: var(--color-text-success); }
-  .option-btn.incorrect { background: var(--color-background-danger); border-color: var(--color-border-danger); color: var(--color-text-danger); }
-  .option-btn.reveal { background: var(--color-background-success); border-color: var(--color-border-success); color: var(--color-text-success); opacity: 0.7; }
-  .option-btn:disabled { cursor: default; }
-  .feedback { margin-top: 1rem; font-size: 14px; color: var(--color-text-secondary); min-height: 20px; line-height: 1.5; }
-  .next-btn { margin-top: 1.5rem; padding: 10px 24px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: var(--color-background-primary); cursor: pointer; font-size: 14px; color: var(--color-text-primary); display: none; }
-  .next-btn:hover { background: var(--color-background-secondary); }
-  .results { text-align: center; padding: 2rem 0; }
-  .score-num { font-size: 48px; font-weight: 500; color: var(--color-text-primary); }
-  .score-label { font-size: 15px; color: var(--color-text-secondary); margin-bottom: 2rem; }
-  .result-msg { font-size: 16px; color: var(--color-text-primary); margin-bottom: 2rem; max-width: 420px; margin-left: auto; margin-right: auto; line-height: 1.6; }
-  .restart-btn { padding: 10px 28px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: var(--color-background-primary); cursor: pointer; font-size: 14px; color: var(--color-text-primary); }
-  .restart-btn:hover { background: var(--color-background-secondary); }
-  .tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: var(--border-radius-md); margin-bottom: 1rem; }
-  .tag-direct { background: var(--color-background-danger); color: var(--color-text-danger); }
-  .tag-phased { background: var(--color-background-info); color: var(--color-text-info); }
-  .tag-parallel { background: var(--color-background-warning); color: var(--color-text-warning); }
-  .tag-all { background: var(--color-background-secondary); color: var(--color-text-secondary); }
-</style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-<div class="quiz-wrap">
+  :root {
+    --bg: #f7f6f2;
+    --surface: #ffffff;
+    --border: #e2e0d8;
+    --border-strong: #c8c5bb;
+    --text-primary: #1a1a18;
+    --text-secondary: #6b6960;
+    --text-hint: #9e9b92;
+    --accent: #1a1a18;
+    --green-bg: #eaf3de;
+    --green-text: #3b6d11;
+    --green-border: #97c459;
+    --red-bg: #fcebeb;
+    --red-text: #a32d2d;
+    --red-border: #f09595;
+    --reveal-bg: #eaf3de;
+    --reveal-text: #3b6d11;
+    --tag-direct-bg: #fcebeb;
+    --tag-direct-text: #a32d2d;
+    --tag-phased-bg: #e6f1fb;
+    --tag-phased-text: #185fa5;
+    --tag-parallel-bg: #faeeda;
+    --tag-parallel-text: #854f0b;
+    --tag-all-bg: #f1efe8;
+    --tag-all-text: #5f5e5a;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem 4rem;
+  }
+
+  header {
+    width: 100%;
+    max-width: 620px;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-hint);
+    margin-bottom: 0.4rem;
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--text-primary);
+    line-height: 1.2;
+  }
+
+  .subtitle {
+    margin-top: 0.5rem;
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  .card {
+    width: 100%;
+    max-width: 620px;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    animation: fadeUp 0.5s ease 0.1s both;
+  }
+
+  .progress-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.75rem;
+  }
+
+  .progress-track {
+    flex: 1;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--text-primary);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  .q-counter {
+    font-size: 12px;
+    color: var(--text-hint);
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    letter-spacing: 0.02em;
+  }
+
+  .tag-direct { background: var(--tag-direct-bg); color: var(--tag-direct-text); }
+  .tag-phased { background: var(--tag-phased-bg); color: var(--tag-phased-text); }
+  .tag-parallel { background: var(--tag-parallel-bg); color: var(--tag-parallel-text); }
+  .tag-all { background: var(--tag-all-bg); color: var(--tag-all-text); }
+
+  .q-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .option-btn {
+    text-align: left;
+    padding: 13px 16px;
+    border-radius: var(--radius-sm);
+    border: 0.5px solid var(--border);
+    background: var(--bg);
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text-primary);
+    line-height: 1.5;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  }
+
+  .option-btn:hover:not(:disabled) {
+    background: var(--surface);
+    border-color: var(--border-strong);
+    transform: translateX(3px);
+  }
+
+  .option-btn:disabled { cursor: default; transform: none; }
+
+  .option-btn.correct {
+    background: var(--green-bg);
+    border-color: var(--green-border);
+    color: var(--green-text);
+    font-weight: 500;
+  }
+
+  .option-btn.incorrect {
+    background: var(--red-bg);
+    border-color: var(--red-border);
+    color: var(--red-text);
+  }
+
+  .option-btn.reveal {
+    background: var(--reveal-bg);
+    border-color: var(--green-border);
+    color: var(--reveal-text);
+    opacity: 0.75;
+  }
+
+  .feedback-box {
+    margin-top: 1.25rem;
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    line-height: 1.6;
+    min-height: 0;
+    display: none;
+  }
+
+  .feedback-box.correct {
+    display: block;
+    background: var(--green-bg);
+    color: var(--green-text);
+    border-left: 3px solid var(--green-border);
+  }
+
+  .feedback-box.incorrect {
+    display: block;
+    background: var(--red-bg);
+    color: var(--red-text);
+    border-left: 3px solid var(--red-border);
+  }
+
+  .next-btn {
+    margin-top: 1.5rem;
+    padding: 10px 22px;
+    border-radius: var(--radius-sm);
+    border: 0.5px solid var(--border-strong);
+    background: var(--text-primary);
+    cursor: pointer;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    color: #ffffff;
+    display: none;
+    transition: opacity 0.15s;
+  }
+
+  .next-btn:hover { opacity: 0.85; }
+
+  .results {
+    display: none;
+    text-align: center;
+    padding: 1rem 0;
+  }
+
+  .score-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid var(--border-strong);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+  }
+
+  .score-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    line-height: 1;
+    color: var(--text-primary);
+  }
+
+  .score-denom {
+    font-size: 12px;
+    color: var(--text-hint);
+    margin-top: 2px;
+  }
+
+  .result-heading {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    margin-bottom: 0.75rem;
+  }
+
+  .result-msg {
+    font-size: 14px;
+    color: var(--text-secondary);
+    max-width: 400px;
+    margin: 0 auto 2rem;
+    line-height: 1.7;
+  }
+
+  .restart-btn {
+    padding: 10px 28px;
+    border-radius: var(--radius-sm);
+    border: 0.5px solid var(--border-strong);
+    background: var(--surface);
+    cursor: pointer;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    color: var(--text-primary);
+    transition: background 0.15s;
+  }
+
+  .restart-btn:hover { background: var(--bg); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .question-anim {
+    animation: fadeUp 0.3s ease both;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">HSC Software Engineering</div>
+  <h1>Implementation Methods</h1>
+  <p class="subtitle">Quick recall — Direct, Phased &amp; Parallel · 10 questions</p>
+</header>
+
+<div class="card">
   <div id="quiz-screen">
-    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress" style="width:0%"></div></div>
-    <div class="q-counter" id="counter">Question 1 of 10</div>
-    <div id="tag-area"></div>
-    <div class="q-text" id="question"></div>
-    <div class="options" id="options"></div>
-    <div class="feedback" id="feedback"></div>
-    <button class="next-btn" id="next-btn">Next question →</button>
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" id="progress" style="width:0%"></div></div>
+      <div class="q-counter" id="counter">1 of 10</div>
+    </div>
+    <div id="question-wrap" class="question-anim">
+      <div id="tag-area"></div>
+      <div class="q-text" id="question"></div>
+      <div class="options" id="options"></div>
+      <div class="feedback-box" id="feedback"></div>
+      <button class="next-btn" id="next-btn">Next →</button>
+    </div>
   </div>
-  <div class="results" id="results-screen" style="display:none">
-    <div class="score-num" id="score-display"></div>
-    <div class="score-label" id="score-label"></div>
+
+  <div class="results" id="results-screen">
+    <div class="score-circle">
+      <div class="score-num" id="score-num"></div>
+      <div class="score-denom" id="score-denom"></div>
+    </div>
+    <div class="result-heading" id="result-heading"></div>
     <div class="result-msg" id="result-msg"></div>
     <button class="restart-btn" onclick="restart()">Try again</button>
   </div>
@@ -54,6 +342,7 @@ const allQuestions = [
     q: "Which implementation method switches off the old system and switches on the new one all at once?",
     options: ["Parallel", "Phased", "Direct", "Pilot"],
     answer: 2,
+    correct: "Correct!",
     feedback: "Direct (or 'big bang') cutover — the old system goes off and the new one goes on in one event."
   },
   {
@@ -61,6 +350,7 @@ const allQuestions = [
     q: "FoxMeyer Drugs went bankrupt in 1996 following a failed software rollout. Which implementation method did they use?",
     options: ["Phased", "Pilot", "Parallel", "Direct"],
     answer: 3,
+    correct: "Correct!",
     feedback: "FoxMeyer used a direct cutover — switching everything at once with no fallback, which proved catastrophic."
   },
   {
@@ -68,77 +358,85 @@ const allQuestions = [
     q: "Which of the following is the biggest risk of direct implementation?",
     options: ["It is the most expensive method to run", "There is no fallback if something goes wrong", "Staff have to enter data twice", "Rollout takes too long"],
     answer: 1,
+    correct: "Correct!",
     feedback: "With direct implementation, if the new system fails there is no easy way to revert — the organisation is fully exposed."
   },
   {
     tag: "phased",
-    q: "Australia's Consumer Data Right (CDR) rollout — banking first, then energy, then non-bank lenders — is an example of which implementation method?",
+    q: "Australia's Consumer Data Right (CDR) rollout — banking first, then energy, then non-bank lenders — is an example of which method?",
     options: ["Direct", "Parallel", "Pilot", "Phased"],
     answer: 3,
+    correct: "Correct!",
     feedback: "The CDR was rolled out sector by sector — a textbook phased implementation by industry type."
   },
   {
     tag: "phased",
-    q: "A company with 12 regional offices rolls out a new HR system one office at a time over six months. What implementation method is this?",
+    q: "A company with 12 regional offices rolls out a new HR system one office at a time over six months. What method is this?",
     options: ["Pilot", "Phased", "Parallel", "Direct"],
     answer: 1,
+    correct: "Correct!",
     feedback: "Rolling out by location over time is phased implementation — staged by geography."
   },
   {
     tag: "phased",
     q: "Which of the following is a disadvantage of phased implementation?",
-    options: ["It exposes the entire organisation if something fails", "It is impossible to roll back", "Different teams may be working on different systems simultaneously, causing inconsistency", "It requires the most upfront capital of all methods"],
+    options: ["It exposes the entire organisation if something fails", "It is impossible to roll back", "Different teams may be on different systems simultaneously, causing inconsistency", "It requires the most upfront capital of all methods"],
     answer: 2,
-    feedback: "With phased rollout, some teams are on the new system while others aren't yet — this can cause data sync issues and confusion."
+    correct: "Correct!",
+    feedback: "With phased rollout, some teams are on the new system while others aren't — this can cause data sync issues and confusion."
   },
   {
     tag: "parallel",
     q: "In parallel implementation, when is the old system turned off?",
     options: ["Immediately when the new system goes live", "After a fixed period of exactly 30 days", "Once the new system has been proven to produce correct, reliable results", "When the pilot group gives approval"],
     answer: 2,
-    feedback: "The old system stays live until the organisation is confident the new system is performing correctly — that's the key feature of parallel running."
+    correct: "Correct!",
+    feedback: "The old system stays live until the organisation is confident the new system is performing correctly — that's the defining feature of parallel running."
   },
   {
     tag: "parallel",
     q: "TSB Bank's 2018 IT migration is often cited in the context of parallel implementation. Why?",
-    options: ["TSB used parallel implementation and it worked perfectly", "TSB chose direct cutover instead of parallel, resulting in millions of customers being locked out", "TSB ran both systems for too long, causing data corruption", "TSB used a phased rollout that became a parallel run by accident"],
+    options: ["TSB used parallel implementation and it worked perfectly", "TSB chose direct cutover instead of parallel, locking millions of customers out of their accounts", "TSB ran both systems for too long, causing data corruption", "TSB used a phased rollout that became a parallel run by accident"],
     answer: 1,
-    feedback: "TSB used a big bang direct cutover — widely criticised as the wrong choice for a critical banking system. Parallel running could have caught the issues before full exposure."
+    correct: "Correct!",
+    feedback: "TSB used a big bang direct cutover — widely criticised as the wrong choice for a critical banking system. Parallel running could have caught issues before full exposure."
   },
   {
     tag: "parallel",
     q: "Why is parallel implementation considered the most expensive method?",
     options: ["It requires a large pilot group to be paid for testing", "Training must be repeated for every location separately", "Both the old and new systems must be run and maintained simultaneously", "It always requires external consultants to manage the transition"],
     answer: 2,
+    correct: "Correct!",
     feedback: "Running two fully operational systems at the same time — including infrastructure, licences, and staff time — significantly increases cost."
   },
   {
     tag: "all",
-    q: "A small startup is replacing its spreadsheet-based invoicing tool with a new system. There is no legacy system to maintain, the team is 8 people, and all staff are tech-savvy. Which method is most appropriate?",
+    q: "A small startup is replacing its spreadsheet-based invoicing tool. The team is 8 people, all tech-savvy, and there is no legacy system to maintain. Which method is most appropriate?",
     options: ["Parallel — to protect financial data", "Phased — to reduce risk across the organisation", "Direct — low risk given the small team, simple system, and no legacy dependency", "Pilot — to test with a representative sample first"],
     answer: 2,
-    feedback: "With a small, tech-confident team, a simple system, and no legacy system to maintain, direct cutover is low-risk and the most practical choice."
+    correct: "Correct!",
+    feedback: "With a small, tech-confident team, a simple system, and no legacy to maintain, direct cutover is low-risk and the most practical choice."
   },
   {
     tag: "all",
     q: "Which implementation method provides the strongest safety net if the new system fails?",
     options: ["Pilot", "Direct", "Phased", "Parallel"],
     answer: 3,
+    correct: "Correct!",
     feedback: "Parallel keeps the old system fully live until the new one is proven — the strongest fallback of all four methods."
   },
   {
     tag: "all",
-    q: "A company wants to implement a new payroll system but cannot afford for any employee to receive an incorrect pay. Which method is most appropriate?",
+    q: "A company needs a new payroll system but cannot afford for any employee to receive an incorrect pay. Which method is most appropriate?",
     options: ["Direct — it is the fastest", "Phased — rolling out department by department", "Parallel — both systems process payroll simultaneously until the new one is verified", "Pilot — test with one department's payroll first"],
     answer: 2,
-    feedback: "Payroll errors directly affect people's income. Parallel running is the industry standard for high-stakes financial systems — both systems process the same data until outputs match."
+    correct: "Correct!",
+    feedback: "Payroll errors directly affect people's income. Parallel running is industry standard for high-stakes financial systems — both systems process the same data until outputs match."
   }
 ];
 
-let questions = [];
-let current = 0;
-let score = 0;
-let answered = false;
+const tagLabels = { direct: "Direct", phased: "Phased", parallel: "Parallel", all: "All methods" };
+let questions = [], current = 0, score = 0, answered = false;
 
 function shuffle(arr) {
   const a = [...arr];
@@ -149,18 +447,23 @@ function shuffle(arr) {
   return a;
 }
 
-function tagHTML(tag) {
-  const labels = { direct: "Direct", phased: "Phased", parallel: "Parallel", all: "All methods" };
-  return `<div class="tag tag-${tag}">${labels[tag]}</div>`;
-}
-
 function loadQuestion() {
   const q = questions[current];
-  document.getElementById('counter').textContent = `Question ${current + 1} of ${questions.length}`;
+  document.getElementById('counter').textContent = `${current + 1} of ${questions.length}`;
   document.getElementById('progress').style.width = `${(current / questions.length) * 100}%`;
-  document.getElementById('tag-area').innerHTML = tagHTML(q.tag);
+
+  const wrap = document.getElementById('question-wrap');
+  wrap.style.animation = 'none';
+  wrap.offsetHeight;
+  wrap.style.animation = 'fadeUp 0.3s ease both';
+
+  document.getElementById('tag-area').innerHTML = `<div class="tag tag-${q.tag}">${tagLabels[q.tag]}</div>`;
   document.getElementById('question').textContent = q.q;
-  document.getElementById('feedback').textContent = '';
+
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback-box';
+  fb.textContent = '';
+
   document.getElementById('next-btn').style.display = 'none';
   answered = false;
 
@@ -181,17 +484,21 @@ function selectAnswer(i) {
   const q = questions[current];
   const btns = document.querySelectorAll('.option-btn');
   btns.forEach(b => b.disabled = true);
+  const fb = document.getElementById('feedback');
   if (i === q.answer) {
     btns[i].classList.add('correct');
     score++;
-    document.getElementById('feedback').textContent = '✓ ' + q.feedback;
+    fb.className = 'feedback-box correct';
+    fb.textContent = '✓ ' + q.feedback;
   } else {
     btns[i].classList.add('incorrect');
     btns[q.answer].classList.add('reveal');
-    document.getElementById('feedback').textContent = '✗ ' + q.feedback;
+    fb.className = 'feedback-box incorrect';
+    fb.textContent = '✗ ' + q.feedback;
   }
-  document.getElementById('next-btn').style.display = 'inline-block';
-  document.getElementById('next-btn').textContent = current < questions.length - 1 ? 'Next question →' : 'See results →';
+  const nb = document.getElementById('next-btn');
+  nb.style.display = 'inline-block';
+  nb.textContent = current < questions.length - 1 ? 'Next →' : 'See results →';
 }
 
 document.getElementById('next-btn').onclick = () => {
@@ -203,27 +510,43 @@ document.getElementById('next-btn').onclick = () => {
 function showResults() {
   document.getElementById('progress').style.width = '100%';
   document.getElementById('quiz-screen').style.display = 'none';
-  document.getElementById('results-screen').style.display = 'block';
+  const rs = document.getElementById('results-screen');
+  rs.style.display = 'block';
+  rs.style.animation = 'fadeUp 0.4s ease both';
+
   const pct = Math.round((score / questions.length) * 100);
-  document.getElementById('score-display').textContent = `${score}/${questions.length}`;
-  document.getElementById('score-label').textContent = `${pct}%`;
-  let msg = '';
-  if (pct === 100) msg = "Perfect score — you clearly understand the trade-offs between methods, not just the definitions.";
-  else if (pct >= 75) msg = "Solid recall. Review any questions you missed and think about how each method's trade-offs connect to real scenarios.";
-  else if (pct >= 50) msg = "Getting there — revisit the comparison table and pay attention to what makes each method distinct, especially around risk and cost.";
-  else msg = "Head back to your notes and focus on the key differences between methods — especially risk level, cost, and when each is appropriate.";
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-denom').textContent = `of ${questions.length}`;
+
+  let heading, msg;
+  if (pct === 100) {
+    heading = "Perfect score.";
+    msg = "You clearly understand the trade-offs between methods, not just the definitions. That's exactly what the exam rewards.";
+  } else if (pct >= 75) {
+    heading = "Solid recall.";
+    msg = "Review any questions you missed and think about how each method's trade-offs connect to real scenarios like FoxMeyer and TSB.";
+  } else if (pct >= 50) {
+    heading = "Getting there.";
+    msg = "Head back to the comparison table and focus on what makes each method distinct — especially around risk, cost, and fallback options.";
+  } else {
+    heading = "Keep at it.";
+    msg = "Revisit your notes and focus on the key differences between methods. Pay close attention to when each is appropriate and why.";
+  }
+
+  document.getElementById('result-heading').textContent = heading;
   document.getElementById('result-msg').textContent = msg;
 }
 
 function restart() {
-  current = 0;
-  score = 0;
+  current = 0; score = 0;
   questions = shuffle(allQuestions).slice(0, 10);
-  document.getElementById('quiz-screen').style.display = 'block';
   document.getElementById('results-screen').style.display = 'none';
+  document.getElementById('quiz-screen').style.display = 'block';
   loadQuestion();
 }
 
 questions = shuffle(allQuestions).slice(0, 10);
 loadQuestion();
 </script>
+</body>
+</html>
